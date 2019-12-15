@@ -1,5 +1,5 @@
 <resources>
-    <string name="api_key"></string>
+    <string name="api_key">YourKeyHere</string>
     <string name="app_name" translatable="true">PopularMoviesStage2App</string>
     <string name="movie_title_placeholder">{movie_title}</string>
     <string name="movie_poster_for_grid">Movie Poster for grid</string>
