@@ -3,7 +3,9 @@ package com.udacity.popularmoviesstage2app.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.udacity.popularmoviesstage2app.models.MovieList;
+import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.models.Review;
+import com.udacity.popularmoviesstage2app.models.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,10 +44,33 @@ public final class QueryUtils {
     }
 
     /**
-     * Query the Movies dataset and return an {@link MovieList} object to represent a single movie.
+     * Query the Movies dataset and return an {@link Movie} object to represent a single movie.
      */
-    public static ArrayList<MovieList> fetchMoviesData(String requestUrl) {
+    public static ArrayList<Movie> fetchMoviesData(String requestUrl) {
+        String jsonResponse = fetchData(requestUrl);
+        // Return the {@link Event}
+        return extractMoviesFromJson(jsonResponse);
+    }
 
+    /**
+     * Query the Movie Reviews dataset and return an {@link Review} object to represent a single movie.
+     */
+    public static ArrayList<Review> fetchMovieReviewsData(String requestUrl) {
+        String jsonResponse = fetchData(requestUrl);
+        // Return the {@link Event}
+        return extractMovieReviewsFromJson(jsonResponse);
+    }
+
+    /**
+     * Query the Movies dataset and return an {@link Trailer} object to represent a single movie.
+     */
+    public static ArrayList<Trailer> fetchMovieTrailerData(String requestUrl) {
+        String jsonResponse = fetchData(requestUrl);
+        // Return the {@link Event}
+        return extractMovieTrailersFromJson(jsonResponse);
+    }
+
+    private static String fetchData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -56,9 +81,7 @@ public final class QueryUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
-
-        // Return the {@link Event}
-        return extractFeatureFromJson(jsonResponse);
+        return jsonResponse;
     }
 
     /**
@@ -134,12 +157,11 @@ public final class QueryUtils {
     }
 
     /**
-     * Return an {@link MovieList} object by parsing out information
+     * Return an {@link Movie} object by parsing out information
      * about the first movie from the input moviesJSON string.
      */
-    private static ArrayList<MovieList> extractFeatureFromJson(String moviesJSON) {
-
-        ArrayList<MovieList> movies = new ArrayList<>();
+    private static ArrayList<Movie> extractMoviesFromJson(String moviesJSON) {
+        ArrayList<Movie> movies = new ArrayList<>();
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(moviesJSON)) {
@@ -154,6 +176,7 @@ public final class QueryUtils {
             if (moviesArray.length() > 0) {
                 for (int i = 0; i < moviesArray.length(); i++) {
                     JSONObject movie = moviesArray.getJSONObject(i);
+                    int id = movie.optInt("id");
                     String posterPath = movie.optString("poster_path");
                     String title = movie.optString("title");
                     String releaseDate = movie.optString("release_date");
@@ -166,8 +189,8 @@ public final class QueryUtils {
 
                     String voterAverageStr = voterAverage + "/10";
 
-                    MovieList movieListObject = new MovieList(title, posterPath, MovieYear, overview, voterAverageStr);
-                    movies.add(movieListObject);
+                    Movie movieObject = new Movie(id, title, posterPath, MovieYear, overview, voterAverageStr);
+                    movies.add(movieObject);
                 }
             }
         } catch (JSONException e) {
@@ -176,6 +199,26 @@ public final class QueryUtils {
             e.printStackTrace();
         }
         return movies;
+    }
+
+
+    /**
+     * Return an {@link Review} object by parsing out information
+     * about the Reviews from the input reviewsJSON string.
+     */
+    private static ArrayList<Review> extractMovieReviewsFromJson(String reviewsJSON) {
+
+        return null;
+
+    }
+
+    /**
+     * Return an {@link Trailer} object by parsing out information
+     * about the first movie from the input trailersJSON string.
+     */
+    private static ArrayList<Trailer> extractMovieTrailersFromJson(String trailersJSON) {
+
+        return null;
     }
 
     /**

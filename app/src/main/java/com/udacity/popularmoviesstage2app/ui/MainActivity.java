@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.adpaters.MoviesGridAdapter;
-import com.udacity.popularmoviesstage2app.models.MovieList;
+import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.tasks.MovieLoader;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 import static com.udacity.popularmoviesstage2app.utils.QueryUtils.isOnline;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<MovieList>> {
+        implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
     /**
      * URL for movies data from the MoviesDB data-set
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                 retryInternetBtn.setVisibility(View.GONE);
                 moviesGridRecyclerView.setVisibility(View.VISIBLE);
 
-                moviesGridAdapter = new MoviesGridAdapter(this, new ArrayList<MovieList>());
+                moviesGridAdapter = new MoviesGridAdapter(this, new ArrayList<Movie>());
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
                 mLayoutManager = new GridLayoutManager(this, NUM_OF_COLUMNS);
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
@@ -116,20 +116,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public Loader<List<MovieList>> onCreateLoader(int i, Bundle bundle) {
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle bundle) {
         // Create a new loader for the given URL
         return new MovieLoader(this, movies_request_url);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<MovieList>> loader, List<MovieList> movies) {
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
         moviesGridAdapter.setData(movies);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<MovieList>> loader) {
+    public void onLoaderReset(Loader<List<Movie>> loader) {
         // Loader reset, so we can clear out our existing data.
-        moviesGridAdapter.setData(new ArrayList<MovieList>());
+        moviesGridAdapter.setData(new ArrayList<Movie>());
     }
 
     @Override
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void refreshMovieResults() {
-        moviesGridAdapter.setData(new ArrayList<MovieList>());
+        moviesGridAdapter.setData(new ArrayList<Movie>());
         getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
     }
 

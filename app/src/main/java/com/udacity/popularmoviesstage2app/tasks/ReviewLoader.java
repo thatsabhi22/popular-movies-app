@@ -4,12 +4,12 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.models.Review;
 import com.udacity.popularmoviesstage2app.utils.QueryUtils;
 
 import java.util.List;
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+public class ReviewLoader extends AsyncTaskLoader<List<Review>> {
 
     /**
      * Tag for log messages
@@ -19,11 +19,11 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     /**
      * Query URL
      */
-    private String mUrl;
+    private String mReviewUrl;
 
-    public MovieLoader(Context context, String url) {
+    public ReviewLoader(Context context, String url) {
         super(context);
-        mUrl = url;
+        mReviewUrl = url;
     }
 
     @Override
@@ -32,13 +32,13 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     }
 
     @Override
-    public List<Movie> loadInBackground() {
-        if (TextUtils.isEmpty(mUrl)) {
+    public List<Review> loadInBackground() {
+        if (TextUtils.isEmpty(mReviewUrl)) {
             return null;
         }
 
         // Perform the network request, parse the response, and extract a list of movies.
-        List<Movie> movies = QueryUtils.fetchMoviesData(mUrl);
-        return movies;
+        List<Review> reviews = QueryUtils.fetchMovieReviewsData(mReviewUrl);
+        return reviews;
     }
 }

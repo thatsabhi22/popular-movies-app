@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
-import com.udacity.popularmoviesstage2app.models.MovieList;
+import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.ui.DetailActivity;
 
 import java.util.Collections;
@@ -22,9 +22,9 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
 
     private final LayoutInflater inflater;
     private final Context mContext;
-    private List<MovieList> movies = Collections.emptyList();
+    private List<Movie> movies = Collections.emptyList();
 
-    public MoviesGridAdapter(Context mContext, List<MovieList> movies) {
+    public MoviesGridAdapter(Context mContext, List<Movie> movies) {
         inflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.movies = movies;
@@ -40,10 +40,10 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
 
     @Override
     public void onBindViewHolder(@NonNull MoviesGridAdapter.MoviesViewHolder holder, int position) {
-        final MovieList current = movies.get(position);
+        final Movie current = movies.get(position);
 
         Picasso.get()
-                .load(current.posterPath)
+                .load(current.getPosterPath())
                 .fit()
                 .error(R.drawable.ic_videocam_black_48dp)
                 .placeholder(R.drawable.ic_videocam_black_48dp)
@@ -66,7 +66,7 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
         return movies == null ? 0 : movies.size();
     }
 
-    public void setData(List<MovieList> data) {
+    public void setData(List<Movie> data) {
         this.movies = data;
         notifyDataSetChanged();
     }
