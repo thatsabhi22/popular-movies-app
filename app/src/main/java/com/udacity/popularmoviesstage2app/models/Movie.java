@@ -3,7 +3,11 @@ package com.udacity.popularmoviesstage2app.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName="Movies")
 public class Movie implements Parcelable {
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -18,33 +22,39 @@ public class Movie implements Parcelable {
         }
     };
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String posterPath;
     private String overview;
     private String releaseDate;
     private String voterAverage;
+    private String backdrop;
 
-    public Movie(String title, String posterPath, String releaseDate,
-                 String overview, String voterAverage) {
+    public Movie(int id, String title, String posterPath, String overview, String releaseDate,
+                 String voterAverage, String backdrop) {
 
-        String poster_base_url = "https://image.tmdb.org/t/p/w185";
-        this.title = title;
-        this.posterPath = poster_base_url + posterPath;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-        this.voterAverage = voterAverage;
-    }
-
-    public Movie(int id, String title, String posterPath, String overview,
-                 String releaseDate, String voterAverage) {
         String poster_base_url = "https://image.tmdb.org/t/p/w185";
         this.id = id;
         this.title = title;
-        this.posterPath = poster_base_url + posterPath;
+        this.posterPath = poster_base_url + posterPath;;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
+        this.backdrop = backdrop;
+    }
+
+    @Ignore
+    public Movie(String title, String posterPath, String overview, String releaseDate,
+                 String voterAverage, String backdrop) {
+
+        String poster_base_url = "https://image.tmdb.org/t/p/w185";
+        this.title = title;
+        this.posterPath = poster_base_url + posterPath;;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.voterAverage = voterAverage;
+        this.backdrop = backdrop;
     }
 
     protected Movie(Parcel in) {
@@ -93,5 +103,9 @@ public class Movie implements Parcelable {
 
     public String getVoterAverage() {
         return voterAverage;
+    }
+
+    public String getBackdrop() {
+        return backdrop;
     }
 }

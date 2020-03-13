@@ -1,7 +1,5 @@
 package com.udacity.popularmoviesstage2app.ui;
 
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,22 +10,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviderKt;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.adpaters.MoviesGridAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
-import com.udacity.popularmoviesstage2app.tasks.MovieLoader;
+import com.udacity.popularmoviesstage2app.utils.MoviesViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.udacity.popularmoviesstage2app.utils.QueryUtils.isOnline;
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Movie>> {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * URL for movies data from the MoviesDB data-set
@@ -37,11 +36,7 @@ public class MainActivity extends AppCompatActivity
      * API KEY URL Query for Movies DB API
      */
     private static final String API_KEY_QUERY = "?api_key=";
-    /**
-     * Constant value for the movie loader ID. We can choose any integer.
-     * This really only comes into play if you're using multiple loaders.
-     */
-    private static final int MOVIE_LOADER_ID = 1;
+
     private static final int NUM_OF_COLUMNS = 2;
     /**
      * sort_type variable determines the movie types filter
@@ -51,13 +46,13 @@ public class MainActivity extends AppCompatActivity
      * API KEY Value URL Query for Movies DB API
      */
     private String API_KEY_QUERY_VALUE;
-    LoaderManager loaderManager;
     private String movies_request_url = "";
     private RecyclerView moviesGridRecyclerView;
     private TextView noInternetTextView;
     private Button retryInternetBtn;
     private MoviesGridAdapter moviesGridAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private MoviesViewModel moviesViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         noInternetTextView = findViewById(R.id.noInternetTV);
         retryInternetBtn = findViewById(R.id.retryInternetBtn);
 
+        initMoviesViewModel();
         setTitle("Popular Movies Stage 2");
 
         retryInternetBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +74,11 @@ public class MainActivity extends AppCompatActivity
                 recreate();
             }
         });
+    }
+
+    private void initMoviesViewModel() {
+        moviesViewModel = ViewModelProviders.of(this)
+                .get(MoviesViewModel.class);
     }
 
     @Override
@@ -100,36 +101,12 @@ public class MainActivity extends AppCompatActivity
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
                 movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
 
-                // Get a reference to the LoaderManager, in order to interact with loaders.
-                loaderManager = getLoaderManager();
-
-                // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-                // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-                // because this activity implements the LoaderCallbacks interface).
-                loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Loader<List<Movie>> onCreateLoader(int id, Bundle bundle) {
-        // Create a new loader for the given URL
-        return new MovieLoader(this, movies_request_url);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
-        moviesGridAdapter.setData(movies);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Movie>> loader) {
-        // Loader reset, so we can clear out our existing data.
-        moviesGridAdapter.setData(new ArrayList<Movie>());
     }
 
     @Override
@@ -157,7 +134,6 @@ public class MainActivity extends AppCompatActivity
 
     public void refreshMovieResults() {
         moviesGridAdapter.setData(new ArrayList<Movie>());
-        getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
     }
 
     public static class CheckOnlineStatus extends AsyncTask<Void, Integer, Boolean> {

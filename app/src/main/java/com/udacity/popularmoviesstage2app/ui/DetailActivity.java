@@ -19,8 +19,6 @@ import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.models.Review;
 import com.udacity.popularmoviesstage2app.models.Trailer;
-import com.udacity.popularmoviesstage2app.tasks.MovieLoader;
-import com.udacity.popularmoviesstage2app.tasks.ReviewLoader;
 
 import java.io.File;
 import java.io.IOException;

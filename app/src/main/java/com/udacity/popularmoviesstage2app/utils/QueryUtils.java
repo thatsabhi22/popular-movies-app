@@ -182,6 +182,7 @@ public final class QueryUtils {
                     String releaseDate = movie.optString("release_date");
                     String overview = movie.optString("overview");
                     Double voterAverage = movie.optDouble("vote_average");
+                    String backdropPath = movie.optString("backdrop_path");
 
                     Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(releaseDate);
                     DateFormat dateFormat = new SimpleDateFormat("yyyy");
@@ -189,7 +190,8 @@ public final class QueryUtils {
 
                     String voterAverageStr = voterAverage + "/10";
 
-                    Movie movieObject = new Movie(id, title, posterPath, MovieYear, overview, voterAverageStr);
+                    Movie movieObject = new Movie(id, title, posterPath, MovieYear, overview,
+                            voterAverageStr,backdropPath);
                     movies.add(movieObject);
                 }
             }
