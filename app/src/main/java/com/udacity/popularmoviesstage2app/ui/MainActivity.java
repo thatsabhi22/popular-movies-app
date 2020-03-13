@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviderKt;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,26 +20,14 @@ import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.utils.MoviesViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.udacity.popularmoviesstage2app.utils.QueryUtils.isOnline;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * URL for movies data from the MoviesDB data-set
-     */
-    private static final String BASE_REQUEST_URL = "http://api.themoviedb.org/3/movie/";
-    /**
-     * API KEY URL Query for Movies DB API
-     */
-    private static final String API_KEY_QUERY = "?api_key=";
-
     private static final int NUM_OF_COLUMNS = 2;
-    /**
-     * sort_type variable determines the movie types filter
-     */
-    private static String sort_type = "popular";
     /**
      * API KEY Value URL Query for Movies DB API
      */
@@ -53,19 +39,23 @@ public class MainActivity extends AppCompatActivity {
     private MoviesGridAdapter moviesGridAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesViewModel moviesViewModel;
+    private List<Movie> movieList;
+
+    String sort_type = "popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        API_KEY_QUERY_VALUE = getResources().getString(R.string.api_key);
+
 
         moviesGridRecyclerView = findViewById(R.id.MoviesGridRecyclerView);
         noInternetTextView = findViewById(R.id.noInternetTV);
         retryInternetBtn = findViewById(R.id.retryInternetBtn);
 
         initMoviesViewModel();
+        movieList = new ArrayList<>();
         setTitle("Popular Movies Stage 2");
 
         retryInternetBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 retryInternetBtn.setVisibility(View.GONE);
                 moviesGridRecyclerView.setVisibility(View.VISIBLE);
 
-                moviesGridAdapter = new MoviesGridAdapter(this, new ArrayList<Movie>());
+                moviesGridAdapter = new MoviesGridAdapter(this, movieList);
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
                 mLayoutManager = new GridLayoutManager(this, NUM_OF_COLUMNS);
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
-                movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
+               // movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
 
             }
         } catch (ExecutionException e) {
@@ -127,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 sort_type = "top_rated";
                 break;
         }
-        movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
+        //movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
         refreshMovieResults();
         return true;
     }
