@@ -28,6 +28,7 @@ import static com.udacity.popularmoviesstage2app.utils.QueryUtils.isOnline;
 public class MainActivity extends AppCompatActivity {
 
     private static final int NUM_OF_COLUMNS = 2;
+    String sort_type = "popular";
     /**
      * API KEY Value URL Query for Movies DB API
      */
@@ -41,14 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private MoviesViewModel moviesViewModel;
     private List<Movie> movieList;
 
-    String sort_type = "popular";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         moviesGridRecyclerView = findViewById(R.id.MoviesGridRecyclerView);
         noInternetTextView = findViewById(R.id.noInternetTV);
@@ -89,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
                 mLayoutManager = new GridLayoutManager(this, NUM_OF_COLUMNS);
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
-               // movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
-
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
