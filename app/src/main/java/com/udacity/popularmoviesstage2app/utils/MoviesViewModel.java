@@ -11,15 +11,16 @@ import java.util.List;
 
 public class MoviesViewModel extends AndroidViewModel {
 
-    String mvlist;
     private List<Movie> movieList;
     private MovieRepository movieRepository;
 
     public MoviesViewModel(@NonNull Application application) {
         super(application);
         movieRepository = MovieRepository.getInstance();
-        mvlist = movieRepository.getMovies();
-        if(mvlist!=null) {
-        }
+        movieList = movieRepository.getMovies();
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
     }
 }

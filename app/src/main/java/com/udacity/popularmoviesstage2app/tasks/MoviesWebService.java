@@ -35,5 +35,4 @@ public interface MoviesWebService {
     @Headers("Content-Type: text/html")
     @GET(SORT_TYPE)
     Call<String> getMovies(@Query("api_key") String value);
-
 }

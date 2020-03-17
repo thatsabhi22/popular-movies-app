@@ -11,6 +11,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.udacity.popularmoviesstage2app.utils.QueryUtils.extractMoviesFromJson;
+
 public class MovieRepository {
 
     private static final MovieRepository ourInstance = new MovieRepository();
@@ -24,7 +26,7 @@ public class MovieRepository {
         return ourInstance;
     }
 
-    public String getMovies() {
+    public void getMoviesFromAPI() {
         MoviesWebService moviesWebService =
                 MoviesWebService.retrofit.create(MoviesWebService.class);
         //String API_KEY = Resources.getSystem().getResourceName(R.string.api_key);
@@ -38,22 +40,25 @@ public class MovieRepository {
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d("Tangho", "inside response");
                 if (response.isSuccessful()) {
-                    //newsData.setValue(response.body());
                     Log.d("Tangho", "inside success");
-                    String mResponse = response.body();
+                    String movieListResponse = response.body();
 
-                    if (mResponse != null) {
-                        mResponse.length();
-                    }
+//                    if (movieListResponse != null) {
+//                        processMovieListResponse(movieListResponse);
+//                    }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                t.printStackTrace();
-                Log.d("Tangho", "Failure happened" );
+                Log.d("Tangho", "Failure happened fetching movies" );
             }
         });
-        return "";
+    }
+
+    private void processMovieList(String movieListResponse) {
+
+        String result = getMoviesFromAPI();
+        movieList = extractMoviesFromJson(movieListResponse);
     }
 }

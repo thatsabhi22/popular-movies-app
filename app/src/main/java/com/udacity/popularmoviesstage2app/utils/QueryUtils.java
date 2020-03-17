@@ -160,7 +160,7 @@ public final class QueryUtils {
      * Return an {@link Movie} object by parsing out information
      * about the first movie from the input moviesJSON string.
      */
-    private static ArrayList<Movie> extractMoviesFromJson(String moviesJSON) {
+    public static ArrayList<Movie> extractMoviesFromJson(String moviesJSON) {
         ArrayList<Movie> movies = new ArrayList<>();
 
         // If the JSON string is empty or null, then return early.

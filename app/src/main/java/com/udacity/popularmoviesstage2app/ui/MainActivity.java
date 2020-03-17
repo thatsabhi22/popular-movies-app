@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * API KEY Value URL Query for Movies DB API
      */
-    private String API_KEY_QUERY_VALUE;
-    private String movies_request_url = "";
     private RecyclerView moviesGridRecyclerView;
     private TextView noInternetTextView;
     private Button retryInternetBtn;
@@ -81,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 noInternetTextView.setVisibility(View.GONE);
                 retryInternetBtn.setVisibility(View.GONE);
                 moviesGridRecyclerView.setVisibility(View.VISIBLE);
+
+                movieList = moviesViewModel.getMovieList();
 
                 moviesGridAdapter = new MoviesGridAdapter(this, movieList);
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
