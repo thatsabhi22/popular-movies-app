@@ -191,7 +191,7 @@ public final class QueryUtils {
                     String voterAverageStr = voterAverage + "/10";
 
                     Movie movieObject = new Movie(id, title, posterPath, MovieYear, overview,
-                            voterAverageStr,backdropPath);
+                            voterAverageStr, backdropPath);
                     movies.add(movieObject);
                 }
             }

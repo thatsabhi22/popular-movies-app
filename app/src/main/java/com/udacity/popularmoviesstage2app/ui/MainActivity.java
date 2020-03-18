@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,8 +63,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initMoviesViewModel() {
+
+        Observer<List<Movie>> movieObserver =
+                movies -> {
+                    movieList.clear();
+                    movieList.addAll(movies);
+
+                    if (moviesGridAdapter == null) {
+                        moviesGridAdapter = new MoviesGridAdapter(MainActivity.this, movieList);
+                    } else {
+                        moviesGridAdapter.notifyDataSetChanged();
+                    }
+                };
         moviesViewModel = ViewModelProviders.of(this)
                 .get(MoviesViewModel.class);
+
+        moviesViewModel.getMovieList().observe(MainActivity.this, movieObserver);
     }
 
     @Override
@@ -79,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 noInternetTextView.setVisibility(View.GONE);
                 retryInternetBtn.setVisibility(View.GONE);
                 moviesGridRecyclerView.setVisibility(View.VISIBLE);
-
-                movieList = moviesViewModel.getMovieList();
 
                 moviesGridAdapter = new MoviesGridAdapter(this, movieList);
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
