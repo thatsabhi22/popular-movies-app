@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesViewModel moviesViewModel;
     private List<Movie> movieList;
+    Observer<List<Movie>> movieObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +65,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void initMoviesViewModel() {
 
-        Observer<List<Movie>> movieObserver =
+        movieObserver =
                 movies -> {
                     movieList.clear();
                     movieList.addAll(movies);
 
                     if (moviesGridAdapter == null) {
-                        moviesGridAdapter = new MoviesGridAdapter(MainActivity.this, movieList);
+                        moviesGridAdapter = new
+                                MoviesGridAdapter(MainActivity.this, movieList);
                     } else {
                         moviesGridAdapter.notifyDataSetChanged();
                     }
-                };
+        };
         moviesViewModel = ViewModelProviders.of(this)
                 .get(MoviesViewModel.class);
-
-        moviesViewModel.getMovieList().observe(MainActivity.this, movieObserver);
+        moviesViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
     }
 
     @Override
@@ -125,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
                 sort_type = "top_rated";
                 break;
         }
-        //movies_request_url = BASE_REQUEST_URL + sort_type + API_KEY_QUERY + API_KEY_QUERY_VALUE;
+        moviesViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
         refreshMovieResults();
         return true;
     }
 
     public void refreshMovieResults() {
-        moviesGridAdapter.setData(new ArrayList<Movie>());
+        moviesGridAdapter.notifyDataSetChanged();
     }
 
     public static class CheckOnlineStatus extends AsyncTask<Void, Integer, Boolean> {

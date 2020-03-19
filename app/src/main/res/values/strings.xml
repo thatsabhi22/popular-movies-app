@@ -15,5 +15,6 @@
     <string name="ratings_icon">Ratings Icon</string>
     <string name="no_internet_text">No Internet Found.\nCheck your connection or try again</string>
     <string name="retry">Retry</string>
+    <string name="popular">popular</string>
 
 </resources>

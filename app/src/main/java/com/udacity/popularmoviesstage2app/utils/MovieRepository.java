@@ -30,11 +30,11 @@ public class MovieRepository {
         return ourInstance;
     }
 
-    public LiveData<List<Movie>> getMovies() {
+    public LiveData<List<Movie>> getMovies(String sort_type) {
         final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
         String API_KEY = "5dae56b7517d66c0d3da2e78ad58bc23";
 
-        Call<String> call = moviesWebService.getMovies(API_KEY);
+        Call<String> call = moviesWebService.getMovies(sort_type,API_KEY);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

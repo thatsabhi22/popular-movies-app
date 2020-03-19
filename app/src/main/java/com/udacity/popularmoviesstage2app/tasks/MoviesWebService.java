@@ -7,6 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MoviesWebService {
@@ -33,6 +34,9 @@ public interface MoviesWebService {
             .build();
 
     @Headers("Content-Type: text/html")
-    @GET(SORT_TYPE)
-    Call<String> getMovies(@Query("api_key") String value);
+    @GET("{sort_type}")
+    Call<String> getMovies(
+            @Path("sort_type") String sort_type,
+            @Query("api_key") String value
+    );
 }
