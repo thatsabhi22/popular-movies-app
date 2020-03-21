@@ -121,18 +121,21 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.srt_pprty:
                 sort_type = "popular";
+                moviesViewModel.getMovieList(sort_type)
+                        .observe(MainActivity.this, movieObserver);
                 break;
             case R.id.srt_top_rated:
                 sort_type = "top_rated";
+                moviesViewModel.getMovieList(sort_type)
+                        .observe(MainActivity.this, movieObserver);
+                break;
+            case R.id.srt_favorites:
+                sort_type = "favorites";
+                moviesViewModel.getMovieListFromDB()
+                        .observe(MainActivity.this, movieObserver);
                 break;
         }
-        moviesViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
-        refreshMovieResults();
         return true;
-    }
-
-    public void refreshMovieResults() {
-        moviesGridAdapter.notifyDataSetChanged();
     }
 
     public static class CheckOnlineStatus extends AsyncTask<Void, Integer, Boolean> {
