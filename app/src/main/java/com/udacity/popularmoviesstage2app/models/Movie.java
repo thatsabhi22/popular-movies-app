@@ -7,7 +7,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName="Movies")
+@Entity(tableName = "Movies")
 public class Movie implements Parcelable {
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -37,7 +37,8 @@ public class Movie implements Parcelable {
         String poster_base_url = "https://image.tmdb.org/t/p/w185";
         this.id = id;
         this.title = title;
-        this.posterPath = poster_base_url + posterPath;;
+        this.posterPath = poster_base_url + posterPath;
+        ;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
@@ -50,7 +51,8 @@ public class Movie implements Parcelable {
 
         String poster_base_url = "https://image.tmdb.org/t/p/w185";
         this.title = title;
-        this.posterPath = poster_base_url + posterPath;;
+        this.posterPath = poster_base_url + posterPath;
+        ;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;

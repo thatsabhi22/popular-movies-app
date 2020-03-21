@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUM_OF_COLUMNS = 2;
     String sort_type = "popular";
+    Observer<List<Movie>> movieObserver;
     /**
      * API KEY Value URL Query for Movies DB API
      */
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesViewModel moviesViewModel;
     private List<Movie> movieList;
-    Observer<List<Movie>> movieObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         moviesGridAdapter.notifyDataSetChanged();
                     }
-        };
+                };
         moviesViewModel = ViewModelProviders.of(this)
                 .get(MoviesViewModel.class);
         moviesViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);

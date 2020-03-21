@@ -2,8 +2,6 @@ package com.udacity.popularmoviesstage2app.ui;
 
 import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,31 +10,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.LoaderManager.LoaderCallbacks;
-
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.models.Movie;
-import com.udacity.popularmoviesstage2app.models.Review;
-import com.udacity.popularmoviesstage2app.models.Trailer;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
-
-    RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
-    TextView movieTitleTV, ratingTV, releaseDateTV, descriptionTV;
-    ImageView posterIV;
-    LoaderManager loaderManager;
-    String movies_reviews_request_url = "";
 
     /**
      * Constant value for the movie loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int MOVIE_REVIEWS_LOADER_ID = 2;
+    RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
+    TextView movieTitleTV, ratingTV, releaseDateTV, descriptionTV;
+    ImageView posterIV;
+    LoaderManager loaderManager;
+    String movies_reviews_request_url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +66,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void getExtraMovieDetails(int id) {
-
 
 
     }

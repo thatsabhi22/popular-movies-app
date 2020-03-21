@@ -20,7 +20,7 @@ public abstract class MoviesDatabase extends RoomDatabase {
     public static MoviesDatabase getInstance(Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {
-                if(sInstance == null) {
+                if (sInstance == null) {
                     Log.d(LOG_TAG, "Creating new database instance");
                     sInstance = Room.databaseBuilder(context.getApplicationContext(),
                             MoviesDatabase.class, MoviesDatabase.DATABASE_NAME)
