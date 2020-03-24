@@ -1,5 +1,7 @@
 package com.udacity.popularmoviesstage2app.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -190,8 +192,14 @@ public final class QueryUtils {
 
                     String voterAverageStr = voterAverage + "/10";
 
-                    Movie movieObject = new Movie(id, title, posterPath, MovieYear, overview,
-                            voterAverageStr, backdropPath);
+                    Movie movieObject = new Movie(
+                            id,
+                            title,
+                            posterPath,
+                            overview,
+                            MovieYear,
+                            voterAverageStr,
+                            backdropPath);
                     movies.add(movieObject);
                 }
             }
