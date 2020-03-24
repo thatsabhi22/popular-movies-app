@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
     ImageView posterIV;
-    AppBarLayout appBarLayout;
+    AppBarLayout appBarLayout; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
