@@ -16,11 +16,6 @@ public interface MoviesWebService {
      */
     String BASE_REQUEST_URL = "http://api.themoviedb.org/3/movie/";
 
-    /**
-     * sort_type variable determines the movie types filter
-     */
-    String SORT_TYPE = "popular";
-
     OkHttpClient.Builder okhttpclientbuilder = new OkHttpClient.Builder();
 
     HttpLoggingInterceptor httplogger = new HttpLoggingInterceptor();
@@ -37,6 +32,20 @@ public interface MoviesWebService {
     @GET("{sort_type}")
     Call<String> getMovies(
             @Path("sort_type") String sort_type,
+            @Query("api_key") String value
+    );
+
+    @Headers("Content-Type: text/html")
+    @GET("{id}/videos")
+    Call<String> getMoviesTrailers(
+            @Path("id") String id,
+            @Query("api_key") String value
+    );
+
+    @Headers("Content-Type: text/html")
+    @GET("{id}/reviews")
+    Call<String> getMovieReviews(
+            @Path("id") String id,
             @Query("api_key") String value
     );
 }

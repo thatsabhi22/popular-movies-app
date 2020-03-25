@@ -8,19 +8,23 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.viewmodels.MovieDetailsViewModel;
 
 public class DetailActivity extends AppCompatActivity {
 
+    MovieDetailsViewModel movieDetailsViewModel;
     RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
     ImageView posterIV;
-    AppBarLayout appBarLayout; 
+    AppBarLayout appBarLayout;
+    String movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +35,15 @@ public class DetailActivity extends AppCompatActivity {
         appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.setBackgroundResource(R.drawable.backdrop);
 
+        movieDetailsViewModel = ViewModelProviders.of(this)
+                .get(MovieDetailsViewModel.class);
+
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
         }
 
-//        trailersGridRecyclerView = findViewById(R.id.trailersGridRecyclerView);
+        trailersGridRecyclerView = findViewById(R.id.trailersGridRecyclerView);
 //        reviewsGridRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
         ratingTV = findViewById(R.id.movie_rating_tv);
         releaseDateTV = findViewById(R.id.release_date_tv);
@@ -62,6 +69,9 @@ public class DetailActivity extends AppCompatActivity {
             releaseDateTV.setText(movie.getReleaseDate().trim());
             descriptionTV.setText(movie.getOverview());
         }
+
+        movieDetailsViewModel.getMovieTrailers(String.valueOf(movie.getId()));
+        movieDetailsViewModel.getMovieReviews(String.valueOf(movie.getId()));
     }
 
     private void closeOnError() {

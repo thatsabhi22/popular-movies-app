@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.adpaters.MoviesGridAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
-import com.udacity.popularmoviesstage2app.utils.MoviesViewModel;
+import com.udacity.popularmoviesstage2app.viewmodels.MoviesListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Button retryInternetBtn;
     private MoviesGridAdapter moviesGridAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MoviesViewModel moviesViewModel;
+    private MoviesListViewModel moviesListViewModel;
     private List<Movie> movieList;
 
     @Override
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initMoviesViewModel() {
-
         movieObserver =
                 movies -> {
                     movieList.clear();
@@ -77,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
                         moviesGridAdapter.notifyDataSetChanged();
                     }
                 };
-        moviesViewModel = ViewModelProviders.of(this)
-                .get(MoviesViewModel.class);
-        moviesViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
+        moviesListViewModel = ViewModelProviders.of(this)
+                .get(MoviesListViewModel.class);
+        moviesListViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
     }
 
     @Override
@@ -121,17 +120,17 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.srt_pprty:
                 sort_type = "popular";
-                moviesViewModel.getMovieList(sort_type)
+                moviesListViewModel.getMovieList(sort_type)
                         .observe(MainActivity.this, movieObserver);
                 break;
             case R.id.srt_top_rated:
                 sort_type = "top_rated";
-                moviesViewModel.getMovieList(sort_type)
+                moviesListViewModel.getMovieList(sort_type)
                         .observe(MainActivity.this, movieObserver);
                 break;
             case R.id.srt_favorites:
                 sort_type = "favorites";
-                moviesViewModel.getMovieListFromDB()
+                moviesListViewModel.getMovieListFromDB()
                         .observe(MainActivity.this, movieObserver);
                 break;
         }
