@@ -46,7 +46,7 @@ public class Movie implements Parcelable {
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
-        this.backdropPath = backdropPath;
+        this.backdropPath = poster_base_url + backdropPath;
     }
 
     @Ignore
@@ -56,11 +56,10 @@ public class Movie implements Parcelable {
         String poster_base_url = "https://image.tmdb.org/t/p/w185";
         this.title = title;
         this.posterPath = poster_base_url + posterPath;
-        ;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
-        this.backdropPath = backdropPath;
+        this.backdropPath =  poster_base_url + backdropPath;
     }
 
     protected Movie(Parcel in) {
@@ -70,6 +69,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         releaseDate = in.readString();
         voterAverage = in.readString();
+        backdropPath = in.readString();
     }
 
     @Override
@@ -85,6 +85,7 @@ public class Movie implements Parcelable {
         dest.writeString(overview);
         dest.writeString(releaseDate);
         dest.writeString(voterAverage);
+        dest.writeString(backdropPath);
     }
 
     public int getId() {

@@ -2,12 +2,14 @@ package com.udacity.popularmoviesstage2app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +24,9 @@ public class DetailActivity extends AppCompatActivity {
     MovieDetailsViewModel movieDetailsViewModel;
     RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
-    ImageView posterIV;
+    ImageView posterIV, backdropIV;
     AppBarLayout appBarLayout;
+    NestedScrollView nestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTV = findViewById(R.id.movie_description_tv);
         posterIV = findViewById(R.id.movie_poster_iv);
         movie_title_tv = findViewById(R.id.movie_title_tv);
+        backdropIV = findViewById(R.id.backdrop_poster_iv);
 
         Movie movie = intent.getParcelableExtra("movie");
 
@@ -56,6 +60,11 @@ public class DetailActivity extends AppCompatActivity {
             closeOnError();
         } else {
             setTitle(movie.getTitle());
+            Picasso.get()
+                    .load(movie.getBackdropPath())
+                    .into(backdropIV);
+            backdropIV.setVisibility(View.VISIBLE);
+
             Picasso.get()
                     .load(movie.getPosterPath())
                     .fit()
