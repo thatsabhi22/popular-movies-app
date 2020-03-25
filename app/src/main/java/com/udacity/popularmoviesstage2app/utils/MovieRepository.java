@@ -19,11 +19,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.udacity.popularmoviesstage2app.utils.QueryUtils.extractMoviesFromJson;
-
 public class MovieRepository {
 
-    MoviesWebService moviesWebService;
+    private MoviesWebService moviesWebService;
     private MoviesDatabase mDatabase;
 
     private MovieRepository(Context context) {
@@ -60,7 +58,15 @@ public class MovieRepository {
     }
 
     private ArrayList<Movie> processMovieListResponse(String movieListResponse) {
-        return extractMoviesFromJson(movieListResponse);
+        return QueryUtils.extractMoviesFromJson(movieListResponse);
+    }
+
+    private ArrayList<Trailer> processMovieTrailersResponse(String movieTrailersResponse) {
+        return QueryUtils.extractMovieTrailersFromJson(movieTrailersResponse);
+    }
+
+    private ArrayList<Review> processMovieReviewsResponse(String movieReviewsResponse) {
+        return QueryUtils.extractMovieReviewsFromJson(movieReviewsResponse);
     }
 
     public LiveData<List<Movie>> getMovieListFromDB() {
@@ -78,9 +84,7 @@ public class MovieRepository {
                 if (response.isSuccessful()) {
                     String movieTrailerResponse = response.body();
                     if (movieTrailerResponse != null) {
-
-                        //TODO Parse Trailers JSON Response and display on detail activity
-                        //data.setValue(processMovieListResponse(movieListResponse));
+                        data.setValue(processMovieTrailersResponse(movieTrailerResponse));
                     }
                 }
             }
@@ -104,9 +108,7 @@ public class MovieRepository {
                 if (response.isSuccessful()) {
                     String movieReviewResponse = response.body();
                     if (movieReviewResponse != null) {
-
-                        //TODO Parse Reviews JSON Response and display on detail activity
-                        //data.setValue(processMovieListResponse(movieListResponse));
+                        data.setValue(processMovieReviewsResponse(movieReviewResponse));
                     }
                 }
             }

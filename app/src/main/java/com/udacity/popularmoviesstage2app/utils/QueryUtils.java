@@ -1,7 +1,5 @@
 package com.udacity.popularmoviesstage2app.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -52,24 +50,6 @@ public final class QueryUtils {
         String jsonResponse = fetchData(requestUrl);
         // Return the {@link Event}
         return extractMoviesFromJson(jsonResponse);
-    }
-
-    /**
-     * Query the Movie Reviews dataset and return an {@link Review} object to represent a single movie.
-     */
-    public static ArrayList<Review> fetchMovieReviewsData(String requestUrl) {
-        String jsonResponse = fetchData(requestUrl);
-        // Return the {@link Event}
-        return extractMovieReviewsFromJson(jsonResponse);
-    }
-
-    /**
-     * Query the Movies dataset and return an {@link Trailer} object to represent a single movie.
-     */
-    public static ArrayList<Trailer> fetchMovieTrailerData(String requestUrl) {
-        String jsonResponse = fetchData(requestUrl);
-        // Return the {@link Event}
-        return extractMovieTrailersFromJson(jsonResponse);
     }
 
     private static String fetchData(String requestUrl) {
@@ -162,7 +142,7 @@ public final class QueryUtils {
      * Return an {@link Movie} object by parsing out information
      * about the first movie from the input moviesJSON string.
      */
-    public static ArrayList<Movie> extractMoviesFromJson(String moviesJSON) {
+    static ArrayList<Movie> extractMoviesFromJson(String moviesJSON) {
         ArrayList<Movie> movies = new ArrayList<>();
 
         // If the JSON string is empty or null, then return early.
@@ -211,24 +191,102 @@ public final class QueryUtils {
         return movies;
     }
 
+    /**
+     * Return an {@link Trailer} object by parsing out information
+     * about the Reviews from the input reviewsJSON string.
+     */
+    static ArrayList<Trailer> extractMovieTrailersFromJson(String trailersJSON) {
+        ArrayList<Trailer> movieTrailers = new ArrayList<>();
+
+        // If the JSON string is empty or null, then return early.
+        if (TextUtils.isEmpty(trailersJSON)) {
+            return null;
+        }
+
+        try {
+            JSONObject baseJsonResponse = new JSONObject(trailersJSON);
+            JSONArray movieTrailersArray = baseJsonResponse.getJSONArray("results");
+
+            /*{
+                "id": "5d894d21d9f4a6000e4dc169",
+                    "iso_639_1": "en",
+                    "iso_3166_1": "US",
+                    "key": "stOVFXuyyWQ",
+                    "name": "Moon Rover",
+                    "site": "YouTube",
+                    "size": 1080,
+                    "type": "Clip"
+            }*/
+            // If there are results in the features array
+            if (movieTrailersArray.length() > 0) {
+                for (int i = 0; i < movieTrailersArray.length(); i++) {
+                    JSONObject movieTrailer = movieTrailersArray.getJSONObject(i);
+                    String id = movieTrailer.optString("id");
+                    String key = movieTrailer.optString("key");
+                    String name = movieTrailer.optString("name");
+                    String site = movieTrailer.optString("site");
+                    Double size = movieTrailer.optDouble("size");
+                    String type = movieTrailer.optString("type");
+
+                    Trailer trailerObject = new Trailer(
+                            id,
+                            key,
+                            name,
+                            site,
+                            size,
+                            type);
+                    movieTrailers.add(trailerObject);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Problem parsing the movies JSON results", e);
+        }
+        return movieTrailers;
+    }
 
     /**
      * Return an {@link Review} object by parsing out information
      * about the Reviews from the input reviewsJSON string.
      */
-    private static ArrayList<Review> extractMovieReviewsFromJson(String reviewsJSON) {
+    static ArrayList<Review> extractMovieReviewsFromJson(String reviewsJSON) {
+        ArrayList<Review> movieReviews = new ArrayList<>();
 
-        return null;
+        // If the JSON string is empty or null, then return early.
+        if (TextUtils.isEmpty(reviewsJSON)) {
+            return null;
+        }
 
-    }
+        try {
+            JSONObject baseJsonResponse = new JSONObject(reviewsJSON);
+            JSONArray movieReviewsArray = baseJsonResponse.getJSONArray("results");
 
-    /**
-     * Return an {@link Trailer} object by parsing out information
-     * about the first movie from the input trailersJSON string.
-     */
-    private static ArrayList<Trailer> extractMovieTrailersFromJson(String trailersJSON) {
+            /*{
+               "author": "markuspm",
+                "content": "Since watching this movie I think I feel ...",
+                "id": "52b7db5c760ee367060af443",
+                "url": "https://www.themoviedb.org/review/52b7db5c760ee367060af443"
+            }*/
+            // If there are results in the features array
+            if (movieReviewsArray.length() > 0) {
+                for (int i = 0; i < movieReviewsArray.length(); i++) {
+                    JSONObject movieReview = movieReviewsArray.getJSONObject(i);
+                    String id = movieReview.optString("id");
+                    String content = movieReview.optString("content");
+                    String author = movieReview.optString("author");
+                    String url = movieReview.optString("url");
 
-        return null;
+                    Review reviewObject = new Review(
+                            id,
+                            content,
+                            author,
+                            url);
+                    movieReviews.add(reviewObject);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Problem parsing the movies JSON results", e);
+        }
+        return movieReviews;
     }
 
     /**

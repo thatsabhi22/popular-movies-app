@@ -24,7 +24,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
     ImageView posterIV;
     AppBarLayout appBarLayout;
-    String movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         trailersGridRecyclerView = findViewById(R.id.trailersGridRecyclerView);
-//        reviewsGridRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
+        reviewsGridRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
         ratingTV = findViewById(R.id.movie_rating_tv);
         releaseDateTV = findViewById(R.id.release_date_tv);
         descriptionTV = findViewById(R.id.movie_description_tv);
@@ -68,10 +67,10 @@ public class DetailActivity extends AppCompatActivity {
             ratingTV.setText(String.valueOf(movie.getVoterAverage()));
             releaseDateTV.setText(movie.getReleaseDate().trim());
             descriptionTV.setText(movie.getOverview());
-        }
 
-        movieDetailsViewModel.getMovieTrailers(String.valueOf(movie.getId()));
-        movieDetailsViewModel.getMovieReviews(String.valueOf(movie.getId()));
+            movieDetailsViewModel.getMovieTrailers(String.valueOf(movie.getId()));
+            movieDetailsViewModel.getMovieReviews(String.valueOf(movie.getId()));
+        }
     }
 
     private void closeOnError() {
