@@ -23,4 +23,8 @@
     <string name="action_settings">Settings</string>
     <string name="trailersLabel">Trailers</string>
     <string name="trailersLabelHint">{Trailers Label}</string>
+    <string name="reviewsLabel">Reviews</string>
+    <string name="reviewsLabelHint">{Reviews Label}</string>
+    <string name="review_text_hint">{review_text}</string>
+    <string name="review_author_hint">{review_author_text}</string>
 </resources>

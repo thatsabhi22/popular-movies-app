@@ -6,7 +6,7 @@ public class Review {
     private String content;
     private String url;
 
-    public Review(String id, String author, String content, String url) {
+    public Review(String id, String content, String author, String url) {
         this.id = id;
         this.author = author;
         this.content = content;

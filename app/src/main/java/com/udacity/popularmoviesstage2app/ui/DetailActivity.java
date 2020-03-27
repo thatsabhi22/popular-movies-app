@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
+import com.udacity.popularmoviesstage2app.adpaters.ReviewAdapter;
 import com.udacity.popularmoviesstage2app.adpaters.TrailerAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.models.Review;
 import com.udacity.popularmoviesstage2app.models.Trailer;
 import com.udacity.popularmoviesstage2app.viewmodels.MovieDetailsViewModel;
 
@@ -28,22 +30,16 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity {
 
     MovieDetailsViewModel movieDetailsViewModel;
-    RecyclerView trailersRecyclerView, reviewsGridRecyclerView;
+    RecyclerView trailersRecyclerView, reviewsRecyclerView;
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
     ImageView posterIV, backdropIV;
     AppBarLayout appBarLayout;
     Observer<List<Trailer>> trailerObserver;
+    Observer<List<Review>> reviewObserver;
     TrailerAdapter trailerAdapter;
+    ReviewAdapter reviewAdapter;
     private List<Trailer> trailerList;
-
-//    private Observer<List<Trailer>> trailerObserver = trailer -> {
-//        if (trailer != null) {
-//            if (trailer.size() > 0) {
-//                trailersRecyclerView.setVisibility(View.VISIBLE);
-//            }
-//            trailerAdapter.swapMovies(trailer);
-//        }
-//    };
+    private List<Review> reviewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
 
         initDetailViewModel();
         trailerList = new ArrayList<>();
+        reviewList = new ArrayList<>();
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -63,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         trailersRecyclerView = findViewById(R.id.trailersRecyclerView);
-        reviewsGridRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
+        reviewsRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
         ratingTV = findViewById(R.id.movie_rating_tv);
         releaseDateTV = findViewById(R.id.release_date_tv);
         descriptionTV = findViewById(R.id.movie_description_tv);
@@ -98,15 +95,22 @@ public class DetailActivity extends AppCompatActivity {
                     .getMovieTrailers(String.valueOf(movie.getId()))
                     .observe(this, trailerObserver);
             movieDetailsViewModel
-                    .getMovieReviews(String.valueOf(movie.getId()));
-            //.observe(this,reviewObserver);;
+                    .getMovieReviews(String.valueOf(movie.getId()))
+                    .observe(this,reviewObserver);;
 
             trailerAdapter = new TrailerAdapter(this, trailerList);
             trailersRecyclerView.setAdapter(trailerAdapter);
 
+            reviewAdapter = new ReviewAdapter(this,reviewList);
+            reviewsRecyclerView.setAdapter(reviewAdapter);
+
             RecyclerView.LayoutManager trailerLayoutManager
                     = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             trailersRecyclerView.setLayoutManager(trailerLayoutManager);
+
+            RecyclerView.LayoutManager reviewLayoutManager
+                    = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
         }
     }
 
@@ -123,21 +127,21 @@ public class DetailActivity extends AppCompatActivity {
                         trailerAdapter.notifyDataSetChanged();
                     }
                 };
+        reviewObserver =
+                reviews -> {
+                    reviewList.clear();
+                    reviewList.addAll(reviews);
+
+                    if (reviewAdapter == null) {
+                        reviewAdapter = new
+                                ReviewAdapter(DetailActivity.this, reviewList);
+                    } else {
+                        reviewAdapter.notifyDataSetChanged();
+                    }
+                };
         movieDetailsViewModel = ViewModelProviders.of(this)
                 .get(MovieDetailsViewModel.class);
     }
-
-//    private Observer<List<Review>> reviewObserver = reviews -> {
-//        if (reviews != null) {
-//
-//            if (reviews.size() > 0) {
-//                reviewTV.setVisibility(View.VISIBLE);
-//                reviewRecycler.setVisibility(View.VISIBLE);
-//            }
-//
-//            reviewAdapter.swapMovies(reviews);
-//        }
-//    };
 
     private void closeOnError() {
         finish();

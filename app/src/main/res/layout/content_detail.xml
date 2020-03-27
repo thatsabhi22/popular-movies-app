@@ -91,7 +91,7 @@
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/divider1"
             style="@style/Divider"
             android:layout_below="@+id/movie_description_tv"
             android:layout_marginTop="16dp" />
@@ -100,7 +100,7 @@
             android:id="@+id/trailers_label_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/divider"
+            android:layout_below="@id/divider1"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
@@ -117,16 +117,37 @@
             android:layout_below="@id/trailers_label_tv"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal" />
+
+        <View
+            android:id="@+id/divider2"
+            style="@style/Divider"
+            android:layout_below="@+id/trailersRecyclerView"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/reviews_label_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider2"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/reviewsLabelHint"
+            android:text="@string/reviewsLabel"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsGridRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/trailersRecyclerView"
+            android:layout_below="@id/reviews_label_tv"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp" />
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>
