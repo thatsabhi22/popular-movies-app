@@ -22,50 +22,48 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/movie_poster_imageview"
             android:src="@drawable/ic_videocam_black_48dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_toEndOf="@id/movie_poster_iv"
+            android:gravity="center"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/rating_icon"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:contentDescription="@string/ratings_icon"
+                android:src="@drawable/star" />
+
+            <TextView
+                android:id="@+id/movie_rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/movie_rating"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
             <TextView
                 android:id="@+id/release_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="60dp"
+                android:gravity="center"
                 android:hint="@string/release_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/rating_icon"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:contentDescription="@string/ratings_icon"
-                    android:src="@drawable/ic_stars_black_48dp" />
-
-                <TextView
-                    android:id="@+id/movie_rating_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/movie_rating"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -78,7 +76,8 @@
             android:layout_marginEnd="16dp"
             android:hint="@string/movie_title"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/movie_description_tv"
@@ -91,17 +90,43 @@
             android:hint="@string/movie_description"
             android:textSize="16sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trailersGridRecyclerView"
+        <View
+            android:id="@+id/divider"
+            style="@style/Divider"
+            android:layout_below="@+id/movie_description_tv"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/trailers_label_tv"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@id/movie_description_tv" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/trailersLabelHint"
+            android:text="@string/trailersLabel"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trailersRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/trailers_label_tv"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsGridRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@id/trailersGridRecyclerView" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/trailersRecyclerView"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" />
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

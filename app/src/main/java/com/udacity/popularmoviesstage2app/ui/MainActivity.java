@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView noInternetTextView;
     private Button retryInternetBtn;
     private MoviesGridAdapter moviesGridAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private MoviesListViewModel moviesListViewModel;
     private List<Movie> movieList;
 
@@ -97,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
                 moviesGridAdapter = new MoviesGridAdapter(this, movieList);
                 moviesGridRecyclerView.setAdapter(moviesGridAdapter);
-                mLayoutManager = new GridLayoutManager(this, NUM_OF_COLUMNS);
+                RecyclerView.LayoutManager mLayoutManager
+                        = new GridLayoutManager(this, NUM_OF_COLUMNS);
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
             }
         } catch (ExecutionException e) {

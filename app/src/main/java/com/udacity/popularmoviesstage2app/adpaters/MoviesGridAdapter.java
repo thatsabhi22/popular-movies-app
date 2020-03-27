@@ -66,11 +66,6 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
         return movies == null ? 0 : movies.size();
     }
 
-    public void setData(List<Movie> data) {
-        this.movies = data;
-        notifyDataSetChanged();
-    }
-
     class MoviesViewHolder extends RecyclerView.ViewHolder {
 
         ImageView singleMovieImageView;

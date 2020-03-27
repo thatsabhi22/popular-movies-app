@@ -9,24 +9,41 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
+import com.udacity.popularmoviesstage2app.adpaters.TrailerAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.models.Trailer;
 import com.udacity.popularmoviesstage2app.viewmodels.MovieDetailsViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
     MovieDetailsViewModel movieDetailsViewModel;
-    RecyclerView trailersGridRecyclerView, reviewsGridRecyclerView;
+    RecyclerView trailersRecyclerView, reviewsGridRecyclerView;
     TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
     ImageView posterIV, backdropIV;
     AppBarLayout appBarLayout;
-    NestedScrollView nestedScrollView;
+    Observer<List<Trailer>> trailerObserver;
+    TrailerAdapter trailerAdapter;
+    private List<Trailer> trailerList;
+
+//    private Observer<List<Trailer>> trailerObserver = trailer -> {
+//        if (trailer != null) {
+//            if (trailer.size() > 0) {
+//                trailersRecyclerView.setVisibility(View.VISIBLE);
+//            }
+//            trailerAdapter.swapMovies(trailer);
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +54,15 @@ public class DetailActivity extends AppCompatActivity {
         appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.setBackgroundResource(R.drawable.backdrop);
 
-        movieDetailsViewModel = ViewModelProviders.of(this)
-                .get(MovieDetailsViewModel.class);
+        initDetailViewModel();
+        trailerList = new ArrayList<>();
 
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
         }
 
-        trailersGridRecyclerView = findViewById(R.id.trailersGridRecyclerView);
+        trailersRecyclerView = findViewById(R.id.trailersRecyclerView);
         reviewsGridRecyclerView = findViewById(R.id.reviewsGridRecyclerView);
         ratingTV = findViewById(R.id.movie_rating_tv);
         releaseDateTV = findViewById(R.id.release_date_tv);
@@ -77,10 +94,50 @@ public class DetailActivity extends AppCompatActivity {
             releaseDateTV.setText(movie.getReleaseDate().trim());
             descriptionTV.setText(movie.getOverview());
 
-            movieDetailsViewModel.getMovieTrailers(String.valueOf(movie.getId()));
-            movieDetailsViewModel.getMovieReviews(String.valueOf(movie.getId()));
+            movieDetailsViewModel
+                    .getMovieTrailers(String.valueOf(movie.getId()))
+                    .observe(this, trailerObserver);
+            movieDetailsViewModel
+                    .getMovieReviews(String.valueOf(movie.getId()));
+            //.observe(this,reviewObserver);;
+
+            trailerAdapter = new TrailerAdapter(this, trailerList);
+            trailersRecyclerView.setAdapter(trailerAdapter);
+
+            RecyclerView.LayoutManager trailerLayoutManager
+                    = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            trailersRecyclerView.setLayoutManager(trailerLayoutManager);
         }
     }
+
+    private void initDetailViewModel() {
+        trailerObserver =
+                trailers -> {
+                    trailerList.clear();
+                    trailerList.addAll(trailers);
+
+                    if (trailerAdapter == null) {
+                        trailerAdapter = new
+                                TrailerAdapter(DetailActivity.this, trailerList);
+                    } else {
+                        trailerAdapter.notifyDataSetChanged();
+                    }
+                };
+        movieDetailsViewModel = ViewModelProviders.of(this)
+                .get(MovieDetailsViewModel.class);
+    }
+
+//    private Observer<List<Review>> reviewObserver = reviews -> {
+//        if (reviews != null) {
+//
+//            if (reviews.size() > 0) {
+//                reviewTV.setVisibility(View.VISIBLE);
+//                reviewRecycler.setVisibility(View.VISIBLE);
+//            }
+//
+//            reviewAdapter.swapMovies(reviews);
+//        }
+//    };
 
     private void closeOnError() {
         finish();
