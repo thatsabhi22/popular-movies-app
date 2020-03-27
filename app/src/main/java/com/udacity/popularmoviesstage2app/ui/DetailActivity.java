@@ -31,7 +31,7 @@ public class DetailActivity extends AppCompatActivity {
 
     MovieDetailsViewModel movieDetailsViewModel;
     RecyclerView trailersRecyclerView, reviewsRecyclerView;
-    TextView ratingTV, releaseDateTV, descriptionTV, movie_title_tv;
+    TextView ratingTV, releaseDateTV, descriptionTV, movieTitleTV, reviewsLabelTV;
     ImageView posterIV, backdropIV;
     AppBarLayout appBarLayout;
     Observer<List<Trailer>> trailerObserver;
@@ -65,8 +65,9 @@ public class DetailActivity extends AppCompatActivity {
         releaseDateTV = findViewById(R.id.release_date_tv);
         descriptionTV = findViewById(R.id.movie_description_tv);
         posterIV = findViewById(R.id.movie_poster_iv);
-        movie_title_tv = findViewById(R.id.movie_title_tv);
+        movieTitleTV = findViewById(R.id.movie_title_tv);
         backdropIV = findViewById(R.id.backdrop_poster_iv);
+        reviewsLabelTV = findViewById(R.id.reviews_label_tv);
 
         Movie movie = intent.getParcelableExtra("movie");
 
@@ -86,7 +87,7 @@ public class DetailActivity extends AppCompatActivity {
                     .placeholder(R.drawable.ic_videocam_black_48dp)
                     .into(posterIV);
 
-            movie_title_tv.setText(movie.getTitle());
+            movieTitleTV.setText(movie.getTitle());
             ratingTV.setText(String.valueOf(movie.getVoterAverage()));
             releaseDateTV.setText(movie.getReleaseDate().trim());
             descriptionTV.setText(movie.getOverview());
@@ -96,12 +97,13 @@ public class DetailActivity extends AppCompatActivity {
                     .observe(this, trailerObserver);
             movieDetailsViewModel
                     .getMovieReviews(String.valueOf(movie.getId()))
-                    .observe(this,reviewObserver);;
+                    .observe(this, reviewObserver);
+            ;
 
             trailerAdapter = new TrailerAdapter(this, trailerList);
             trailersRecyclerView.setAdapter(trailerAdapter);
 
-            reviewAdapter = new ReviewAdapter(this,reviewList);
+            reviewAdapter = new ReviewAdapter(this, reviewList);
             reviewsRecyclerView.setAdapter(reviewAdapter);
 
             RecyclerView.LayoutManager trailerLayoutManager
@@ -131,6 +133,10 @@ public class DetailActivity extends AppCompatActivity {
                 reviews -> {
                     reviewList.clear();
                     reviewList.addAll(reviews);
+
+                    if (reviews.size() < 1) {
+                        reviewsLabelTV.setVisibility(View.GONE);
+                    }
 
                     if (reviewAdapter == null) {
                         reviewAdapter = new

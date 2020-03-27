@@ -1,9 +1,11 @@
 package com.udacity.popularmoviesstage2app.adpaters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,11 +22,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     private final LayoutInflater inflater;
     private final Context mContext;
     private List<Review> reviews = Collections.emptyList();
+    private Dialog reviewDialog;
+    private String HYPHEN = "-";
+    private String SPACE = " ";
 
     public ReviewAdapter(Context mContext, List<Review> reviews) {
         inflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.reviews = reviews;
+        reviewDialog = new Dialog(mContext);
     }
 
     @NonNull
@@ -32,14 +38,32 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = (View) inflater.inflate(R.layout.review_list_item, parent, false);
         ReviewAdapter.ReviewViewHolder viewHolder = new ReviewViewHolder(view);
+
+        reviewDialog.setContentView(R.layout.detailed_review_dialog);
+
+        viewHolder.reviewContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String authorText = HYPHEN + SPACE + reviews.get(viewHolder.getAdapterPosition()).getAuthor();
+                TextView reviewDialogAuthorTV = reviewDialog.findViewById(R.id.review_dialog_author_tv);
+                TextView reviewDialogTextTV = reviewDialog.findViewById(R.id.review_dialog_content_tv);
+
+                reviewDialogAuthorTV.setText(authorText);
+                reviewDialogTextTV.setText(reviews.get(viewHolder.getAdapterPosition()).getContent());
+
+                reviewDialog.show();
+            }
+        });
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         final Review current = reviews.get(position);
+        String authorText = HYPHEN + SPACE + current.getAuthor();
         holder.reviewTextTV.setText(current.getContent());
-        holder.reviewAuthorTV.setText(current.getAuthor());
+        holder.reviewAuthorTV.setText(authorText);
     }
 
     @Override
@@ -49,9 +73,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
         TextView reviewTextTV, reviewAuthorTV;
+        RelativeLayout reviewContainer;
 
         ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
+            reviewContainer = itemView.findViewById(R.id.review_container);
             reviewTextTV = itemView.findViewById(R.id.review_text_tv);
             reviewAuthorTV = itemView.findViewById(R.id.review_author_tv);
         }
