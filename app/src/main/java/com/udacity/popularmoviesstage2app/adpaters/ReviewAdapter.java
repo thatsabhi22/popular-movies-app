@@ -2,6 +2,7 @@ package com.udacity.popularmoviesstage2app.adpaters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = (View) inflater.inflate(R.layout.review_list_item, parent, false);
         ReviewAdapter.ReviewViewHolder viewHolder = new ReviewViewHolder(view);
-
         reviewDialog.setContentView(R.layout.detailed_review_dialog);
 
         viewHolder.reviewContainer.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +64,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         String authorText = HYPHEN + SPACE + current.getAuthor();
         holder.reviewTextTV.setText(current.getContent());
         holder.reviewAuthorTV.setText(authorText);
+
+        if(current.getContent().length()<200){
+            holder.readMoreTV.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -72,7 +76,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     }
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
-        TextView reviewTextTV, reviewAuthorTV;
+        TextView reviewTextTV, reviewAuthorTV,readMoreTV;
         RelativeLayout reviewContainer;
 
         ReviewViewHolder(@NonNull View itemView) {
@@ -80,6 +84,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             reviewContainer = itemView.findViewById(R.id.review_container);
             reviewTextTV = itemView.findViewById(R.id.review_text_tv);
             reviewAuthorTV = itemView.findViewById(R.id.review_author_tv);
+            readMoreTV = itemView.findViewById(R.id.read_more_tv);
         }
     }
 }

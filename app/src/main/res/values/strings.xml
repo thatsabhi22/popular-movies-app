@@ -28,6 +28,8 @@
     <string name="reviewsLabelHint">{Reviews Label}</string>
     <string name="review_text_hint">{review_text}</string>
     <string name="review_author_hint">{review_author_text}</string>
+    <string name="read_more_hint">{read_more}</string>
+    <string name="read_more_text">Read More</string>
     <string name="review_button_close">X</string>
     <string name="hyphen">-</string>
 </resources>

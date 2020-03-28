@@ -31,7 +31,8 @@ public class DetailActivity extends AppCompatActivity {
 
     MovieDetailsViewModel movieDetailsViewModel;
     RecyclerView trailersRecyclerView, reviewsRecyclerView;
-    TextView ratingTV, releaseDateTV, descriptionTV, movieTitleTV, reviewsLabelTV;
+    TextView ratingTV, releaseDateTV, descriptionTV, movieTitleTV, reviewsLabelTV,trailersLabelTV;
+    View divider1;
     ImageView posterIV, backdropIV;
     AppBarLayout appBarLayout;
     Observer<List<Trailer>> trailerObserver;
@@ -68,6 +69,8 @@ public class DetailActivity extends AppCompatActivity {
         movieTitleTV = findViewById(R.id.movie_title_tv);
         backdropIV = findViewById(R.id.backdrop_poster_iv);
         reviewsLabelTV = findViewById(R.id.reviews_label_tv);
+        trailersLabelTV = findViewById(R.id.trailers_label_tv);
+        divider1 = findViewById(R.id.divider1);
 
         Movie movie = intent.getParcelableExtra("movie");
 
@@ -121,6 +124,11 @@ public class DetailActivity extends AppCompatActivity {
                 trailers -> {
                     trailerList.clear();
                     trailerList.addAll(trailers);
+
+                    if (trailers.size() < 1) {
+                        divider1.setVisibility(View.GONE);
+                        trailersLabelTV.setVisibility(View.GONE);
+                    }
 
                     if (trailerAdapter == null) {
                         trailerAdapter = new

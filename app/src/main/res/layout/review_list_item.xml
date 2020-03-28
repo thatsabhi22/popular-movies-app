@@ -21,10 +21,24 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/review_author_tv"
+        android:id="@+id/read_more_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/review_text_tv"
+        android:layout_marginTop="8dp"
+        android:textAlignment="viewEnd"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/read_more_hint"
+        android:text="@string/read_more_text"
+        android:textColor="#3EA6FF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/review_author_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/read_more_tv"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/review_author_hint"
