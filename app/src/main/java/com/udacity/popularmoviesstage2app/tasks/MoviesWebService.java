@@ -1,5 +1,7 @@
 package com.udacity.popularmoviesstage2app.tasks;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -25,6 +27,7 @@ public interface MoviesWebService {
             .baseUrl(BASE_REQUEST_URL)
             .client(okhttpclientbuilder
                     .addInterceptor(httplogger.setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addInterceptor(new StethoInterceptor())
                     .build())
             .build();
 

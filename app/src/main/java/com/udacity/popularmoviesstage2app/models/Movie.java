@@ -30,6 +30,7 @@ public class Movie implements Parcelable {
     private String releaseDate;
     private String voterAverage;
     private String backdropPath;
+    private String baseURL;
 
     public Movie(int id,
                  String title,
@@ -39,27 +40,27 @@ public class Movie implements Parcelable {
                  String voterAverage,
                  String backdropPath) {
 
-        String poster_base_url = "https://image.tmdb.org/t/p/w185";
+        this.baseURL = "https://image.tmdb.org/t/p/w185";
         this.id = id;
         this.title = title;
-        this.posterPath = poster_base_url + posterPath;
+        this.posterPath = this.baseURL + posterPath;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
-        this.backdropPath = poster_base_url + backdropPath;
+        this.backdropPath = this.baseURL + backdropPath;
     }
 
     @Ignore
     public Movie(String title, String posterPath, String overview, String releaseDate,
                  String voterAverage, String backdropPath) {
 
-        String poster_base_url = "https://image.tmdb.org/t/p/w185";
+        this.baseURL = "https://image.tmdb.org/t/p/w185";
         this.title = title;
-        this.posterPath = poster_base_url + posterPath;
+        this.posterPath = this.baseURL + posterPath;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
-        this.backdropPath =  poster_base_url + backdropPath;
+        this.backdropPath =  this.baseURL + backdropPath;
     }
 
     protected Movie(Parcel in) {
@@ -70,6 +71,7 @@ public class Movie implements Parcelable {
         releaseDate = in.readString();
         voterAverage = in.readString();
         backdropPath = in.readString();
+        baseURL = in.readString();
     }
 
     @Override
@@ -86,6 +88,7 @@ public class Movie implements Parcelable {
         dest.writeString(releaseDate);
         dest.writeString(voterAverage);
         dest.writeString(backdropPath);
+        dest.writeString(baseURL);
     }
 
     public int getId() {
@@ -114,5 +117,21 @@ public class Movie implements Parcelable {
 
     public String getBackdropPath() {
         return backdropPath;
+    }
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 }

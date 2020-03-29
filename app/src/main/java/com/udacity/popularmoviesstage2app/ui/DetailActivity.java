@@ -31,9 +31,9 @@ public class DetailActivity extends AppCompatActivity {
 
     MovieDetailsViewModel movieDetailsViewModel;
     RecyclerView trailersRecyclerView, reviewsRecyclerView;
-    TextView ratingTV, releaseDateTV, descriptionTV, movieTitleTV, reviewsLabelTV,trailersLabelTV;
+    TextView ratingTV, releaseDateTV, descriptionTV, movieTitleTV, reviewsLabelTV, trailersLabelTV;
     View divider1;
-    ImageView posterIV, backdropIV;
+    ImageView posterIV, backdropIV, favoriteIV;
     AppBarLayout appBarLayout;
     Observer<List<Trailer>> trailerObserver;
     Observer<List<Review>> reviewObserver;
@@ -67,6 +67,7 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTV = findViewById(R.id.movie_description_tv);
         posterIV = findViewById(R.id.movie_poster_iv);
         movieTitleTV = findViewById(R.id.movie_title_tv);
+        favoriteIV = findViewById(R.id.favorite_iv);
         backdropIV = findViewById(R.id.backdrop_poster_iv);
         reviewsLabelTV = findViewById(R.id.reviews_label_tv);
         trailersLabelTV = findViewById(R.id.trailers_label_tv);
@@ -116,6 +117,15 @@ public class DetailActivity extends AppCompatActivity {
             RecyclerView.LayoutManager reviewLayoutManager
                     = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
+
+            favoriteIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(DetailActivity.this,
+                            "I like this movie", Toast.LENGTH_LONG).show();
+                    movieDetailsViewModel.addMovieToFavorite(movie);
+                }
+            });
         }
     }
 
@@ -155,6 +165,8 @@ public class DetailActivity extends AppCompatActivity {
                 };
         movieDetailsViewModel = ViewModelProviders.of(this)
                 .get(MovieDetailsViewModel.class);
+
+
     }
 
     private void closeOnError() {

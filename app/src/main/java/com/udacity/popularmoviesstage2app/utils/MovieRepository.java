@@ -1,6 +1,7 @@
 package com.udacity.popularmoviesstage2app.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -14,6 +15,8 @@ import com.udacity.popularmoviesstage2app.tasks.MoviesWebService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +26,7 @@ public class MovieRepository {
 
     private MoviesWebService moviesWebService;
     private MoviesDatabase mDatabase;
+    private Executor mExecutor = Executors.newSingleThreadExecutor();
 
     private MovieRepository(Context context) {
         moviesWebService = MoviesWebService.retrofit.create(MoviesWebService.class);
@@ -119,5 +123,25 @@ public class MovieRepository {
             }
         });
         return data;
+    }
+
+    public void addMovieToFavorite(Movie movie) {
+
+        if(movie !=null){
+            String baseURL = movie.getBaseURL();
+
+            String posterPath = movie.getPosterPath();
+            movie.setPosterPath(posterPath.replace(baseURL, ""));
+
+            String backdropPath = movie.getBackdropPath();
+            movie.setBackdropPath(backdropPath.replace(baseURL, ""));
+        }
+
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.moviesDAO().insertMovie(movie);
+            }
+        });
     }
 }

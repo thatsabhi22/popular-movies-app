@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.models.Review;
 import com.udacity.popularmoviesstage2app.models.Trailer;
 import com.udacity.popularmoviesstage2app.utils.MovieRepository;
@@ -27,5 +28,9 @@ public class MovieDetailsViewModel extends AndroidViewModel {
 
     public LiveData<List<Review>> getMovieReviews(String id) {
         return movieRepository.getMovieReviews(id);
+    }
+
+    public void addMovieToFavorite(Movie movie) {
+        movieRepository.addMovieToFavorite(movie);
     }
 }
