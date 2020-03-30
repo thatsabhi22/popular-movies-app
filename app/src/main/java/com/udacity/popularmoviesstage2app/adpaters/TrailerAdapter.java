@@ -1,11 +1,15 @@
 package com.udacity.popularmoviesstage2app.adpaters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,6 +55,21 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
                 .error(R.drawable.ic_videocam_black_48dp)
                 .placeholder(R.drawable.ic_videocam_black_48dp)
                 .into(holder.movieThumbnailIV);
+
+        holder.ytButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(holder.itemView.getContext(),
+                        "Playing the videos", Toast.LENGTH_SHORT).show();
+
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.youtube.com/watch?v=" + current.getKey()));
+                try {
+                    holder.itemView.getContext().startActivity(webIntent);
+                } catch (ActivityNotFoundException ex) {
+                }
+            }
+        });
     }
 
     @Override
@@ -61,10 +80,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     public class TrailerViewHolder extends RecyclerView.ViewHolder {
 
         ImageView movieThumbnailIV;
+        View ytButton;
 
         public TrailerViewHolder(@NonNull View itemView) {
             super(itemView);
             movieThumbnailIV = itemView.findViewById(R.id.trailer_poster_iv);
+            ytButton = itemView.findViewById(R.id.trailer_play_button);
         }
     }
 }

@@ -18,6 +18,7 @@
         android:src="@drawable/not_available" />
 
     <View
+        android:id="@+id/trailer_play_button"
         android:layout_width="62dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
