@@ -34,8 +34,7 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
     @Override
     public MoviesGridAdapter.MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = (View) inflater.inflate(R.layout.single_movie_tile, parent, false);
-        MoviesViewHolder viewHolder = new MoviesViewHolder(view);
-        return viewHolder;
+        return new MoviesViewHolder(view);
     }
 
     @Override

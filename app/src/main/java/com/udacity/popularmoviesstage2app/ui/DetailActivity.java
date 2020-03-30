@@ -118,6 +118,8 @@ public class DetailActivity extends AppCompatActivity {
                     = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
 
+            Movie favMovie = movieDetailsViewModel.getMovieById(movie.getId());
+
             favoriteIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

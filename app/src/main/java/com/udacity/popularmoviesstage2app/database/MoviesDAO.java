@@ -26,4 +26,7 @@ public interface MoviesDAO {
 
     @Query("SELECT * FROM Movies ORDER BY id DESC")
     LiveData<List<Movie>> loadAllMovies();
+
+    @Query("SELECT * FROM Movies where id = :id")
+    Movie getMovieById(int id);
 }

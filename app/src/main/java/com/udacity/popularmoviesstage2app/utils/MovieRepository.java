@@ -26,6 +26,7 @@ public class MovieRepository {
     private MoviesWebService moviesWebService;
     private MoviesDatabase mDatabase;
     private Executor mExecutor = Executors.newSingleThreadExecutor();
+    private Movie favMovie;
 
     private MovieRepository(Context context) {
         moviesWebService = MoviesWebService.retrofit.create(MoviesWebService.class);
@@ -142,5 +143,15 @@ public class MovieRepository {
                 mDatabase.moviesDAO().insertMovie(movie);
             }
         });
+    }
+
+    public Movie getMovieById(int id) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                favMovie = mDatabase.moviesDAO().getMovieById(id);
+            }
+        });
+        return favMovie;
     }
 }

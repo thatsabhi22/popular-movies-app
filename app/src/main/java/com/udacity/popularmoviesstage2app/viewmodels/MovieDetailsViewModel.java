@@ -33,4 +33,8 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     public void addMovieToFavorite(Movie movie) {
         movieRepository.addMovieToFavorite(movie);
     }
+
+    public Movie getMovieById(int id) {
+        return movieRepository.getMovieById(id);
+    }
 }
