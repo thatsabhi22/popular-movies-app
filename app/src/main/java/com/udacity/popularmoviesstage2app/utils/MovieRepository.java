@@ -1,7 +1,6 @@
 package com.udacity.popularmoviesstage2app.utils;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -127,7 +126,7 @@ public class MovieRepository {
 
     public void addMovieToFavorite(Movie movie) {
 
-        if(movie !=null){
+        if (movie != null) {
             String baseURL = movie.getBaseURL();
 
             String posterPath = movie.getPosterPath();

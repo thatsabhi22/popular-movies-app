@@ -60,7 +60,7 @@ public class Movie implements Parcelable {
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.voterAverage = voterAverage;
-        this.backdropPath =  this.baseURL + backdropPath;
+        this.backdropPath = this.baseURL + backdropPath;
     }
 
     protected Movie(Parcel in) {
@@ -103,6 +103,10 @@ public class Movie implements Parcelable {
         return posterPath;
     }
 
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
     public String getOverview() {
         return overview;
     }
@@ -119,19 +123,15 @@ public class Movie implements Parcelable {
         return backdropPath;
     }
 
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
     public String getBaseURL() {
         return baseURL;
     }
 
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
     }
 }
