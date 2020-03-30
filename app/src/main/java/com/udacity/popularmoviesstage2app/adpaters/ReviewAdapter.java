@@ -2,7 +2,6 @@ package com.udacity.popularmoviesstage2app.adpaters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         holder.reviewTextTV.setText(current.getContent());
         holder.reviewAuthorTV.setText(authorText);
 
-        if(current.getContent().length()<200){
+        if (current.getContent().length() < 200) {
             holder.readMoreTV.setVisibility(View.GONE);
         }
     }
@@ -76,7 +75,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     }
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
-        TextView reviewTextTV, reviewAuthorTV,readMoreTV;
+        TextView reviewTextTV, reviewAuthorTV, readMoreTV;
         RelativeLayout reviewContainer;
 
         ReviewViewHolder(@NonNull View itemView) {

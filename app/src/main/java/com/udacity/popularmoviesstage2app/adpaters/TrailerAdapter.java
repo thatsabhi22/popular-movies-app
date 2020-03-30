@@ -1,8 +1,6 @@
 package com.udacity.popularmoviesstage2app.adpaters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.models.Trailer;
-import com.udacity.popularmoviesstage2app.ui.DetailActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +43,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
         String THUMBNAIL_URL = holder.itemView.getContext().getString(R.string.thumbnail_url);
         String THUMBNAIL_SUFFIX = holder.itemView.getContext().getString(R.string.thumbnail_suffix);
-        String url = TextUtils.concat(THUMBNAIL_URL,current.getKey(),THUMBNAIL_SUFFIX).toString();
+        String url = TextUtils.concat(THUMBNAIL_URL, current.getKey(), THUMBNAIL_SUFFIX).toString();
 
         Picasso.get()
                 .load(url)
@@ -54,16 +51,6 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
                 .error(R.drawable.ic_videocam_black_48dp)
                 .placeholder(R.drawable.ic_videocam_black_48dp)
                 .into(holder.movieThumbnailIV);
-
-//        holder.itemView.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intent = new Intent(mContext, DetailActivity.class);
-//                        intent.putExtra("movie", current);
-//                        mContext.startActivity(intent);
-//                    }
-//                });
     }
 
     @Override
@@ -74,6 +61,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     public class TrailerViewHolder extends RecyclerView.ViewHolder {
 
         ImageView movieThumbnailIV;
+
         public TrailerViewHolder(@NonNull View itemView) {
             super(itemView);
             movieThumbnailIV = itemView.findViewById(R.id.trailer_poster_iv);

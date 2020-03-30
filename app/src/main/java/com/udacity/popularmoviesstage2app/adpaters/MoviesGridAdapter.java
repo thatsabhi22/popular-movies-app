@@ -45,7 +45,7 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
                 .load(current.getPosterPath())
                 .fit()
                 .error(R.drawable.ic_videocam_black_48dp)
-                .placeholder(R.drawable.ic_videocam_black_48dp)
+                .placeholder(R.drawable.loading)
                 .into((ImageView) holder.singleMovieImageView
                         .findViewById(R.id.movie_poster_imageview));
 
@@ -71,7 +71,6 @@ public class MoviesGridAdapter extends RecyclerView.Adapter<MoviesGridAdapter.Mo
 
         public MoviesViewHolder(@NonNull View itemView) {
             super(itemView);
-
             singleMovieImageView = itemView.findViewById(R.id.movie_poster_imageview);
         }
     }

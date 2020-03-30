@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int NUM_OF_COLUMNS = 2;
     String sort_type = "popular";
     Observer<List<Movie>> movieObserver;
+    ProgressBar mProgressBar;
     /**
      * API KEY Value URL Query for Movies DB API
      */
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         moviesGridRecyclerView = findViewById(R.id.MoviesGridRecyclerView);
         noInternetTextView = findViewById(R.id.noInternetTV);
         retryInternetBtn = findViewById(R.id.retryInternetBtn);
+        mProgressBar = findViewById(R.id.progress_bar);
 
         initMoviesViewModel();
         movieList = new ArrayList<>();
@@ -99,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView.LayoutManager mLayoutManager
                         = new GridLayoutManager(this, NUM_OF_COLUMNS);
                 moviesGridRecyclerView.setLayoutManager(mLayoutManager);
+                moviesGridRecyclerView.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
             }
         } catch (ExecutionException e) {
             e.printStackTrace();

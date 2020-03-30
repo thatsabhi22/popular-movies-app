@@ -39,8 +39,10 @@ public class DetailActivity extends AppCompatActivity {
     Observer<List<Review>> reviewObserver;
     TrailerAdapter trailerAdapter;
     ReviewAdapter reviewAdapter;
+    boolean isFavorite = false;
     private List<Trailer> trailerList;
     private List<Review> reviewList;
+    private Movie favMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,18 @@ public class DetailActivity extends AppCompatActivity {
             movieDetailsViewModel
                     .getMovieReviews(String.valueOf(movie.getId()))
                     .observe(this, reviewObserver);
-            ;
+
+            movieDetailsViewModel.mLiveMovie.observe(this, new Observer<Movie>() {
+                @Override
+                public void onChanged(Movie movie) {
+                    if (movie != null) {
+                        favoriteIV.setImageResource(R.drawable.like);
+                        isFavorite = true;
+                    } else {
+                        favoriteIV.setImageResource(R.drawable.unlike);
+                    }
+                }
+            });
 
             trailerAdapter = new TrailerAdapter(this, trailerList);
             trailersRecyclerView.setAdapter(trailerAdapter);
@@ -118,14 +131,24 @@ public class DetailActivity extends AppCompatActivity {
                     = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
 
-            Movie favMovie = movieDetailsViewModel.getMovieById(movie.getId());
+            movieDetailsViewModel.getMovieById(movie.getId());
 
             favoriteIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(DetailActivity.this,
-                            "I like this movie", Toast.LENGTH_LONG).show();
-                    movieDetailsViewModel.addMovieToFavorite(movie);
+                    if (!isFavorite) {
+                        Toast.makeText(DetailActivity.this,
+                                "I like this movie", Toast.LENGTH_LONG).show();
+                        movieDetailsViewModel.addMovieToFavorite(movie);
+                        favoriteIV.setImageResource(R.drawable.like);
+                        isFavorite = true;
+                    } else {
+                        Toast.makeText(DetailActivity.this,
+                                "Alright! Not a Favorite", Toast.LENGTH_SHORT).show();
+                        movieDetailsViewModel.deleteMovieFromFavorite(movie);
+                        favoriteIV.setImageResource(R.drawable.unlike);
+                        isFavorite = false;
+                    }
                 }
             });
         }

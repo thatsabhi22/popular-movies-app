@@ -26,10 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/review_text_tv"
         android:layout_marginTop="8dp"
-        android:textAlignment="viewEnd"
         android:layout_marginBottom="8dp"
         android:hint="@string/read_more_hint"
         android:text="@string/read_more_text"
+        android:textAlignment="viewEnd"
         android:textColor="#3EA6FF"
         android:textSize="16sp"
         android:textStyle="bold" />

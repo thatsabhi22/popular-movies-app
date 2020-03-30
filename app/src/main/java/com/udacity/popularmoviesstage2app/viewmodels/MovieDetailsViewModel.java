@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.models.Review;
@@ -12,10 +13,14 @@ import com.udacity.popularmoviesstage2app.models.Trailer;
 import com.udacity.popularmoviesstage2app.utils.MovieRepository;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MovieDetailsViewModel extends AndroidViewModel {
 
+    public MutableLiveData<Movie> mLiveMovie = new MutableLiveData<>();
     private MovieRepository movieRepository;
+    private Executor mExecutor = Executors.newSingleThreadExecutor();
 
     public MovieDetailsViewModel(@NonNull Application application) {
         super(application);
@@ -34,7 +39,17 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         movieRepository.addMovieToFavorite(movie);
     }
 
-    public Movie getMovieById(int id) {
-        return movieRepository.getMovieById(id);
+    public void getMovieById(int movieId) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Movie movie = movieRepository.getMovieById(movieId);
+                mLiveMovie.postValue(movie);
+            }
+        });
+    }
+
+    public void deleteMovieFromFavorite(Movie movie) {
+        movieRepository.deleteMovieFromFavorite(movie);
     }
 }
