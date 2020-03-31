@@ -41,3 +41,15 @@ This app fetches movies data from www.themoviedb.org which needs API Key.
 You need to generate your own API Key to use this app.
 To obtain an API Key, Go to www.themoviedb.org and sign up.
 Replace your API Key in the strings.xml under values folder, replace the string value with name "api_key"
+
+## Screens
+![Alt text](/Screenshots/1.png?raw=true)
+![Alt text](/Screenshots/2.png?raw=true)
+![Alt text](/Screenshots/3.png?raw=true)
+![Alt text](/Screenshots/4.png?raw=true)
+![Alt text](/Screenshots/5.png?raw=true)
+![Alt text](/Screenshots/6.png?raw=true)
+![Alt text](/Screenshots/7.png?raw=true)
+![Alt text](/Screenshots/8.png?raw=true)
+![Alt text](/Screenshots/9.png?raw=true)
+
