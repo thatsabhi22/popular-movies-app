@@ -1,4 +1,5 @@
 <resources>
+    <string name="api_key">Your-API-key</string>
     <string name="app_name" translatable="true">PopularMoviesStage2App</string>
     <string name="app_title" translatable="true">Popular Movies Stage 2</string>
     <string name="movie_title_placeholder">{movie_title}</string>
