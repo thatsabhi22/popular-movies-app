@@ -1,7 +1,7 @@
 package com.udacity.popularmoviesstage2app.ui;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,13 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.udacity.popularmoviesstage2app.R;
 import com.udacity.popularmoviesstage2app.adpaters.MoviesGridAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
+import com.udacity.popularmoviesstage2app.utils.QueryUtils;
 import com.udacity.popularmoviesstage2app.viewmodels.MoviesListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import static com.udacity.popularmoviesstage2app.utils.QueryUtils.isOnline;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
     String sort_type = "popular";
     Observer<List<Movie>> movieObserver;
     ProgressBar mProgressBar;
-    /**
-     * API KEY Value URL Query for Movies DB API
-     */
+    String api_key;
     private RecyclerView moviesGridRecyclerView;
-    private TextView noInternetTextView;
+    private TextView noInternetTV, currentCategoryTV;
     private Button retryInternetBtn;
     private MoviesGridAdapter moviesGridAdapter;
     private MoviesListViewModel moviesListViewModel;
@@ -49,13 +46,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         moviesGridRecyclerView = findViewById(R.id.MoviesGridRecyclerView);
-        noInternetTextView = findViewById(R.id.noInternetTV);
+        noInternetTV = findViewById(R.id.noInternetTV);
         retryInternetBtn = findViewById(R.id.retryInternetBtn);
         mProgressBar = findViewById(R.id.progress_bar);
+        currentCategoryTV = findViewById(R.id.current_category_tv);
+        currentCategoryTV.setText(R.string.popular_movie_list_caption);
+        api_key = getString(R.string.api_key);
 
         initMoviesViewModel();
         movieList = new ArrayList<>();
-        setTitle("Popular Movies Stage 2");
+        setTitle(getString(R.string.app_title));
 
         retryInternetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,20 +80,22 @@ public class MainActivity extends AppCompatActivity {
                 };
         moviesListViewModel = ViewModelProviders.of(this)
                 .get(MoviesListViewModel.class);
-        moviesListViewModel.getMovieList(sort_type).observe(MainActivity.this, movieObserver);
+        moviesListViewModel.getMovieList(sort_type, api_key)
+                .observe(MainActivity.this, movieObserver);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         try {
-            boolean isOffline = new CheckOnlineStatus().execute().get();
-            if (isOffline) {
-                noInternetTextView.setVisibility(View.VISIBLE);
+            boolean isOffline = new QueryUtils.CheckOnlineStatus().execute().get();
+            if (isOffline && !TextUtils.equals(sort_type, "favorites")) {
+                noInternetTV.setVisibility(View.VISIBLE);
                 retryInternetBtn.setVisibility(View.VISIBLE);
                 moviesGridRecyclerView.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
             } else {
-                noInternetTextView.setVisibility(View.GONE);
+                noInternetTV.setVisibility(View.GONE);
                 retryInternetBtn.setVisibility(View.GONE);
                 moviesGridRecyclerView.setVisibility(View.VISIBLE);
 
@@ -125,30 +127,24 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.srt_pprty:
                 sort_type = "popular";
-                moviesListViewModel.getMovieList(sort_type)
+                currentCategoryTV.setText(R.string.popular_movie_list_caption);
+                moviesListViewModel.getMovieList(sort_type, api_key)
                         .observe(MainActivity.this, movieObserver);
                 break;
             case R.id.srt_top_rated:
                 sort_type = "top_rated";
-                moviesListViewModel.getMovieList(sort_type)
+                currentCategoryTV.setText(R.string.top_rated_movie_list_caption);
+                moviesListViewModel.getMovieList(sort_type, api_key)
                         .observe(MainActivity.this, movieObserver);
                 break;
             case R.id.srt_favorites:
                 sort_type = "favorites";
+                currentCategoryTV.setText(R.string.favorites_movie_list_caption);
                 moviesListViewModel.getMovieListFromDB()
                         .observe(MainActivity.this, movieObserver);
                 break;
         }
+        onResume();
         return true;
-    }
-
-    public static class CheckOnlineStatus extends AsyncTask<Void, Integer, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            //This is a background thread, when it finishes executing will return the result from your function.
-            Boolean isOffline;
-            isOffline = isOnline();
-            return isOffline;
-        }
     }
 }

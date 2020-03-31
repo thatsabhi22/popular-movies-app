@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,8 +58,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         holder.ytButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(holder.itemView.getContext(),
-                        "Playing the videos", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.itemView.getContext(),
+                //        "Playing the videos", Toast.LENGTH_SHORT).show();
 
                 Intent webIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://www.youtube.com/watch?v=" + current.getKey()));

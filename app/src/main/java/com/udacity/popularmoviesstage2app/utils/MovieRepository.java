@@ -36,11 +36,10 @@ public class MovieRepository {
         return new MovieRepository(context);
     }
 
-    public LiveData<List<Movie>> getMovies(String sort_type) {
+    public LiveData<List<Movie>> getMovies(String sort_type, String api_key) {
         final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
-        String API_KEY = "5dae56b7517d66c0d3da2e78ad58bc23";
 
-        Call<String> call = moviesWebService.getMovies(sort_type, API_KEY);
+        Call<String> call = moviesWebService.getMovies(sort_type, api_key);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -76,11 +75,10 @@ public class MovieRepository {
         return mDatabase.moviesDAO().loadAllMovies();
     }
 
-    public LiveData<List<Trailer>> getMovieTrailers(String id) {
+    public LiveData<List<Trailer>> getMovieTrailers(String id, String api_key) {
         final MutableLiveData<List<Trailer>> data = new MutableLiveData<>();
-        String API_KEY = "5dae56b7517d66c0d3da2e78ad58bc23";
 
-        Call<String> call = moviesWebService.getMoviesTrailers(id, API_KEY);
+        Call<String> call = moviesWebService.getMoviesTrailers(id, api_key);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -100,11 +98,10 @@ public class MovieRepository {
         return data;
     }
 
-    public LiveData<List<Review>> getMovieReviews(String id) {
+    public LiveData<List<Review>> getMovieReviews(String id, String api_key) {
         final MutableLiveData<List<Review>> data = new MutableLiveData<>();
-        String API_KEY = "5dae56b7517d66c0d3da2e78ad58bc23";
 
-        Call<String> call = moviesWebService.getMovieReviews(id, API_KEY);
+        Call<String> call = moviesWebService.getMovieReviews(id, api_key);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

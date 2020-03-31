@@ -1,5 +1,6 @@
 package com.udacity.popularmoviesstage2app.utils;
 
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -306,6 +307,16 @@ public final class QueryUtils {
             return false;
         } catch (IOException e) {
             return true;
+        }
+    }
+
+    public static class CheckOnlineStatus extends AsyncTask<Void, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //This is a background thread, when it finishes executing will return the result from your function.
+            Boolean isOffline;
+            isOffline = isOnline();
+            return isOffline;
         }
     }
 }

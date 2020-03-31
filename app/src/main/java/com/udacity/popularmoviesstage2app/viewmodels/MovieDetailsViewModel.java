@@ -27,12 +27,12 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         movieRepository = MovieRepository.getInstance(application.getApplicationContext());
     }
 
-    public LiveData<List<Trailer>> getMovieTrailers(String id) {
-        return movieRepository.getMovieTrailers(id);
+    public LiveData<List<Trailer>> getMovieTrailers(String id, String api_key) {
+        return movieRepository.getMovieTrailers(id, api_key);
     }
 
-    public LiveData<List<Review>> getMovieReviews(String id) {
-        return movieRepository.getMovieReviews(id);
+    public LiveData<List<Review>> getMovieReviews(String id, String api_key) {
+        return movieRepository.getMovieReviews(id, api_key);
     }
 
     public void addMovieToFavorite(Movie movie) {

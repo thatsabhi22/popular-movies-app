@@ -1,6 +1,6 @@
 <resources>
-    <string name="api_key">5dae56b7517d66c0d3da2e78ad58bc23</string>
     <string name="app_name" translatable="true">PopularMoviesStage2App</string>
+    <string name="app_title" translatable="true">Popular Movies Stage 2</string>
     <string name="movie_title_placeholder">{movie_title}</string>
     <string name="movie_poster_for_grid">Movie Poster for grid</string>
     <string name="movie_poster_imageview">Movie Poster ImageView</string>
@@ -13,7 +13,8 @@
     <string name="sort_by_top_rated">Sort By Top Rated</string>
     <string name="sort_by_favorites">Favorites</string>
     <string name="ratings_icon">Ratings Icon</string>
-    <string name="no_internet_text">No Internet Found.\nCheck your connection or try again</string>
+    <string name="no_internet_text">No Internet Found.\nCheck your connection or try again.\n\n
+        Meanwhile you can look at your favourite movies \noffline from the Menu top-right</string>
     <string name="retry">Retry</string>
     <string name="popular">popular</string>
     <string name="title_activity_detail">DetailActivity</string>
@@ -33,4 +34,8 @@
     <string name="review_button_close">X</string>
     <string name="hyphen">-</string>
     <string name="unlike_icon">unlike icon</string>
+    <string name="current_category">{Current Category}</string>
+    <string name="popular_movie_list_caption">Popular Movies</string>
+    <string name="top_rated_movie_list_caption">Top Rated Movies</string>
+    <string name="favorites_movie_list_caption">Your Favorite Movies</string>
 </resources>

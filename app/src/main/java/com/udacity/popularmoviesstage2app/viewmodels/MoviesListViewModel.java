@@ -19,11 +19,10 @@ public class MoviesListViewModel extends AndroidViewModel {
     public MoviesListViewModel(@NonNull Application application) {
         super(application);
         movieRepository = MovieRepository.getInstance(application.getApplicationContext());
-        this.movieList = movieRepository.getMovies("popular");
     }
 
-    public LiveData<List<Movie>> getMovieList(String sort_type) {
-        return movieRepository.getMovies(sort_type);
+    public LiveData<List<Movie>> getMovieList(String sort_type, String api_key) {
+        return movieRepository.getMovies(sort_type, api_key);
     }
 
     public LiveData<List<Movie>> getMovieListFromDB() {

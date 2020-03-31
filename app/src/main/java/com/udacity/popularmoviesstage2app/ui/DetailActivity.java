@@ -22,10 +22,12 @@ import com.udacity.popularmoviesstage2app.adpaters.TrailerAdapter;
 import com.udacity.popularmoviesstage2app.models.Movie;
 import com.udacity.popularmoviesstage2app.models.Review;
 import com.udacity.popularmoviesstage2app.models.Trailer;
+import com.udacity.popularmoviesstage2app.utils.QueryUtils;
 import com.udacity.popularmoviesstage2app.viewmodels.MovieDetailsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,9 +42,9 @@ public class DetailActivity extends AppCompatActivity {
     TrailerAdapter trailerAdapter;
     ReviewAdapter reviewAdapter;
     boolean isFavorite = false;
+    String api_key;
     private List<Trailer> trailerList;
     private List<Review> reviewList;
-    private Movie favMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,18 @@ public class DetailActivity extends AppCompatActivity {
         reviewsLabelTV = findViewById(R.id.reviews_label_tv);
         trailersLabelTV = findViewById(R.id.trailers_label_tv);
         divider1 = findViewById(R.id.divider1);
+        api_key = getString(R.string.api_key);
+
+        try {
+            boolean isOffline = new QueryUtils.CheckOnlineStatus().execute().get();
+            if (isOffline) {
+                reviewsLabelTV.setVisibility(View.GONE);
+                trailersLabelTV.setVisibility(View.GONE);
+                divider1.setVisibility(View.GONE);
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Movie movie = intent.getParcelableExtra("movie");
 
@@ -99,10 +113,10 @@ public class DetailActivity extends AppCompatActivity {
             descriptionTV.setText(movie.getOverview());
 
             movieDetailsViewModel
-                    .getMovieTrailers(String.valueOf(movie.getId()))
+                    .getMovieTrailers(String.valueOf(movie.getId()), api_key)
                     .observe(this, trailerObserver);
             movieDetailsViewModel
-                    .getMovieReviews(String.valueOf(movie.getId()))
+                    .getMovieReviews(String.valueOf(movie.getId()), api_key)
                     .observe(this, reviewObserver);
 
             movieDetailsViewModel.mLiveMovie.observe(this, new Observer<Movie>() {
@@ -190,8 +204,6 @@ public class DetailActivity extends AppCompatActivity {
                 };
         movieDetailsViewModel = ViewModelProviders.of(this)
                 .get(MovieDetailsViewModel.class);
-
-
     }
 
     private void closeOnError() {
