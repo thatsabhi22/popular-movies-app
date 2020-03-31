@@ -1,4 +1,4 @@
-# Popular Movies Stage-2 App
+# Popular Movies Stage 2 App
 Android Developer Nanodegree Popular Movies Stage 2 App
 
 This is the Stage 2 of the Popular Movies App.  
