@@ -1,10 +1,8 @@
 # Popular Movies Stage 2 App
-Android Developer Nanodegree Popular Movies Stage 2 App
 
 This is the Stage 2 of the Popular Movies App.  
 This app helps users discover popular and recent movies.  
 It requests the data from Internet on MoviesDB API and this ensures data is latest and updated.  
-
 
 
 ## Used libraries and Concepts
